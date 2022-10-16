@@ -17,10 +17,10 @@ function App() {
         >
           Learn React
         </a>
-      </header>
-      <p>Some text</p>
-    </div>
-  );
+        </header>
+</div>
+  )
+  
 }
 
 export default App;
