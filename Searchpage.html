@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title> NU Spotlight</title>
+    </head>
+
+    <style>
+        x {
+          padding: 30px;
+          background-color: FireBrick;
+        }
+    </style>
+<x>
+ <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for spot" title="Type in a features">
+</x>
+    
+        <h1><strong>NU Spotlight</strong></h1>
+        <hr/>
+
+        <hr/>
+
+        <style>
+
+.show {
+  display: block;
+}
+
+.container {
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.btn.active {
+  background-color: rgb(131, 12, 12);
+  color: white;
+}
+</style>
+
+<h2>Features Filter</h2>
+
+<div id="myBtnContainer">
+  <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+  <button class="btn" onclick="filterSelection('air-con')"> air-con</button>
+  <button class="btn" onclick="filterSelection('armrest')"> armrest</button>
+  <button class="btn" onclick="filterSelection('backrest')"> backrest</button>
+  <button class="btn" onclick="filterSelection('tv-projector')">tv-projector</button>
+  <button class="btn" onclick="filterSelection('indoor')"> indoor</button>
+  <button class="btn" onclick="filterSelection('outdoor')"> outdoor</button>
+  <button class="btn" onclick="filterSelection('charging port')"> charging port</button>
+</div>
+            
+<script>
+    // Add active class to the current button (highlight it)
+    var btnContainer = document.getElementById("myBtnContainer");
+    var btns = btnContainer.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function(){
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
+</script>
+<hr>
+        
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 5px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 10px 10px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myUL {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#myUL li a {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 5px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block
+}
+
+#myUL li a:hover:not(.header) {
+  background-color: #eee;
+}
+</style>
+<body>
+    <ul id="myUL">
+      <li><a href="#">Spot1
+                <img src="https://librarynews.northeastern.edu/wp-content/uploads/2019/01/IMG_3462-1024x800.jpg" alt="fake image" style="width:150px;height:100px;"/> 
+                <p>Brief description of the spot</p>
+                <p>Features</p>
+                <p>Rating</p>
+                </a></li>
+                
+      <li><a href="#">Spot2
+      <img src="https://librarynews.northeastern.edu/wp-content/uploads/2019/01/IMG_3462-1024x800.jpg" alt="fake image" style="width:150px;height:100px;"/>
+      <p>Brief description of the spot</p>
+                <p>Features</p>
+                <p>Rating</p>
+                </a></li>
+    
+      <li><a href="#">Spot3
+      <img src="https://librarynews.northeastern.edu/wp-content/uploads/2019/01/IMG_3462-1024x800.jpg" alt="fake image" style="width:150px;height:100px;"/>
+      <p>Brief description of the spot</p>
+                <p>Features</p>
+                <p>Rating</p>
+                </a></li>
+      
+      <li><a href="#">Spot4
+      <img src="https://librarynews.northeastern.edu/wp-content/uploads/2019/01/IMG_3462-1024x800.jpg" alt="fake image" style="width:150px;height:100px;"/>
+      <p>Brief description of the spot</p>
+                <p>Features</p>
+                <p>Rating</p>
+                </a></li>
+    
+      <li><a href="#">Spot5
+      <img src="https://librarynews.northeastern.edu/wp-content/uploads/2019/01/IMG_3462-1024x800.jpg" alt="fake image" style="width:150px;height:100px;"/>
+      <p>Brief description of the spot</p>
+                <p>Features</p>
+                <p>Rating</p>
+                </a></li>
+      
+      <li><a href="#">Spot6
+      <img src="https://librarynews.northeastern.edu/wp-content/uploads/2019/01/IMG_3462-1024x800.jpg" alt="fake image" style="width:150px;height:100px;"/>
+      <p>Brief description of the spot</p>
+                <p>Features</p>
+                <p>Rating</p>
+                </a></li>
+      
+      <li><a href="#">Spot7
+      <img src="https://librarynews.northeastern.edu/wp-content/uploads/2019/01/IMG_3462-1024x800.jpg" alt="fake image" style="width:150px;height:100px;"/>
+      <p>Brief description of the spot</p>
+                <p>Features</p>
+                <p>Rating</p>
+                </a></li>
+    </ul>
+    </body> 
+
+    <script>
+        function myFunction() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+</script>
+</html>
