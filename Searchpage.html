@@ -1,0 +1,912 @@
+<!doctype html>
+<html>
+    <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin='anonymous'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <head>
+        <meta charset = "utf-8">
+        <title> NU Spotlight</title>
+    </head>
+
+    <style>
+        x {
+          padding: 30px;
+          background-color: FireBrick;
+          display: block;
+        }
+
+        m {
+          margin-left: 20px;
+        }
+    </style>
+    
+<style>
+.multi {
+   /* Column count property */
+   -webkit-column-count: 2;
+   -moz-column-count: 2;
+   column-count: 2;
+
+   /* Column gap property */
+   -webkit-column-gap: 1300px; 
+   -moz-column-gap: 1300px; 
+   column-gap: 1300px;
+}
+   .search-container {
+    position: relative;
+    display: inline-block;
+    margin: 4px 2px;
+    height: 50px;
+    width: 50px;
+    vertical-align: bottom;
+}
+.mglass {
+    display: inline-block;
+    pointer-events: none;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+}
+.searchbutton {
+    position: absolute;
+    font-size: 30px;
+    width: 100%;
+    margin: 0;
+    padding: 6;
+}
+.search:focus + .searchbutton {
+    transition-duration: 0.4s;
+    -moz-transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+    -o-transition-duration: 0.4s;
+    background-color: white;
+    color: #C8102E;
+}
+.search {
+    position: absolute;
+    left: 49px; /* Button width-1px (Not 50px/100% because that will sometimes show a 1px line between the search box and button) */
+    background-color: white;
+    outline: none;
+    border: none;
+    padding: 0;
+    width: 0;
+    height: 100%;
+    z-index: 10;
+    transition-duration: 0.4s;
+    -moz-transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+    -o-transition-duration: 0.4s;
+}
+.search:focus {
+    width: 363px; /* Bar width+1px */
+    padding: 0 16px 0 0;
+}
+.expandright {
+    left: auto;
+    right: 49px; /* Button width-1px */
+}
+.expandright:focus {
+    padding: 0 0 0 16px;
+}
+
+</style>
+
+<x class="multi">
+    <h1><strong> NU Spotlight </strong></h1>
+    <div class="search-container">
+      <form action="/search" method="get">
+        <input class="search expandright" id="searchright" type="search" name="q" placeholder="Search">
+        <label class="button searchbutton" for="searchright"><span class="mglass">&#9906;</span></label>
+      </form>
+    </div>
+</x>
+
+        <hr/>
+
+        <hr/>
+
+ <style>
+.filterDiv {
+  float: left;
+  color: black;
+  width: 2000px;
+  display: none;
+  border: 1px solid #ddd;
+}
+
+.show {
+  display: block;
+}
+
+.container {
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.btn.active {
+  background-color: rgb(131, 12, 12);
+  color: white;
+}
+
+</style>
+
+<h2><m>Features Filter</m></h2>
+
+
+<div id="myBtnContainer">
+  <m>
+  <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+  <button class="btn" onclick="filterSelection('air-con')"> air-con</button>
+  <button class="btn" onclick="filterSelection('armrest')"> armrest</button>
+  <button class="btn" onclick="filterSelection('backrest')"> backrest</button>
+  <button class="btn" onclick="filterSelection('tv-projector')">tv-projector</button>
+  <button class="btn" onclick="filterSelection('indoor')"> indoor</button>
+  <button class="btn" onclick="filterSelection('outdoor')"> outdoor</button>
+  <button class="btn" onclick="filterSelection('charging port')"> charging port</button>
+</m>
+</div>
+
+
+<script>
+filterSelection("all")
+function filterSelection(c) {
+  var x, i;
+  x = document.getElementsByClassName("filterDiv");
+  if (c == "all") c = "";
+  for (i = 0; i < x.length; i++) {
+    RemoveClass(x[i], "show");
+    if (x[i].className.indexOf(c) > -1) AddClass(x[i], "show");
+  }
+}
+
+function AddClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+  }
+}
+
+function RemoveClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    while (arr1.indexOf(arr2[i]) > -1) {
+      arr1.splice(arr1.indexOf(arr2[i]), 1);     
+    }
+  }
+  element.className = arr1.join(" ");
+}
+
+    // Add active class to the current button (highlight it)
+    var btnContainer = document.getElementById("myBtnContainer");
+    var btns = btnContainer.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function(){
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
+</script>
+<hr>
+        
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 5px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 10px 10px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myUL {
+  float: left;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#myUL li a {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 5px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block
+}
+
+#myUL li a:hover:not(.header) {
+  background-color: #eee;
+}
+</style>
+
+<style>
+  .grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 10px;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+  .leftchunk {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  float:inline-start;
+  display:inline-flex;
+}
+</style>
+</head>
+<body>
+</style>
+    <ul id="myUL">
+      <div class="container">
+        <!--spot 1-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1TCL9JrljPDB_yvta21nB7dHwcBHP7kJB" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Study spot in IV fist floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+         <!--spot 2-->       
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1LZV1-lV4aVkjore-_GkwQQzZX8-WqBpe" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Study spot in IV fist floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+    
+      <!--spot 3-->
+      <div class="filterDiv air-con backrest charging port indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1arkkbLvfSRRCdWsYPP3kTZcfetF2MZ4n" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Study spot in IV fist floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Charging ports, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+      
+      <!--spot 4-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1QkeXiKLFe7XQr-R54exfCFU9D7KyHjt5" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Study spot in IV fist floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+    
+      <!--spot 5-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1c8ZBvP53EvYuD0xnJWQnJI8etPXccAEh" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Ground floor of curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+      
+      <!--spot 6-->
+      <div class="filterDiv air-con backrest armrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1wsr_ZbMsDR_tbFpw6ouiiO76pntO-_ue" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Ground floor of curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Armrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+      
+      <!--spot 7-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1aQdcuTSKdnGFxRSpQJUu5y_EmrCQKp67" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Ground floor of curry</sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 8-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=11hamky7zug5TqMJNrnDHZE7nGsx43210" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Ground floor of curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 9-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1igV60BXgnbulUQipDbYaHcJE_ZQMwrC_" alt="fake image" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Ground floor of curry</sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 10-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=125l9PA5QAN0cbPdXbKUfJ5Jypw7hIeTn" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>First floor of Curry</sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 11-->
+      <div class="filterDiv air-con backrest charging port indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1231QhoNyy4jQUCVPjQBSx--sR9VOgEGE" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>First floor of Curry</sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Charging ports, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 12-->
+      <div class="filterDiv air-con backrest charging port indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=104VASZSOTrfWtDeKq1oWsTzIlSmIeQVz" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>First floor of Curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Charging ports, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 13-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1NpxOujG0CrpTa9Dmi133Gc2l1pLvbcG4" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>First floor of Curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 14-->
+      <div class="filterDiv air-con backrest armrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1L_KwqT-YUV-Ni2HpZbMSTBbXbM8qvPGe" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>First floor of Curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Armrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 15-->
+      <div class="filterDiv air-con backrest armrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1AQ2ZSAEeGhvCecsNcRzWdISBb0aW9h4n" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Second floor of Curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Armrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 16-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1WyyUjfc6TNk3I_05RSkQ9pkKFD3Sdu9x" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>First floor of Curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 17-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1rYCE-mbgf5ChTPxxlRvM8yHvD42F52Eu" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>First floor of Curry </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 18-->
+      <div class="filterDiv air-con backrest armrest indoor charging port">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1EU8QwhmLUOcLM1syZp1OvocdsyD_d72g" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>West Village H Second Floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Armrest, Charging ports, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 19-->
+      <div class="filterDiv air-con backrest armrest charging port indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1bxJc1xKS66xrWLxdSVs5ovngz-GpMShQ" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>West Village H Second Floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Armrest,Charging ports Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 20-->
+      <div class="filterDiv air-con backrest armrest charging port indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1y5dXKXL3OxfdqREQNM448EngA4kVBJtM" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>West Village H Second Floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Armrest, Charging ports, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 21-->
+      <div class="filterDiv air-con backrest armrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1WG-CubvcIdjZMS5d2VutNUl6jCicd3Um" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>West Village H Second Floor</sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Armrest Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 22-->
+      <div class="filterDiv air-con backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=19lKgzJQtow7dsMlcY0jh5VQOETUfR0wN" alt="fake image" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>West Village H Second Floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 23-->
+      <div class="filterDiv air-con backrest armrest charging port indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1yyLNjeQtxelZHD9X9oPxJjW82Kfc5-u0" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>West Village H Second Floor </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Armrest, Charging ports Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 24-->
+      <div class="filterDiv air-con backrest charing port indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1IlIN_WOOT0AUfV7RFFUE0E5bSsZwEkOf" alt="fake image" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>West Village H First Floor  </sub></m></p>
+                <p><m><sub>Features: Air-conditioning, Backrest, Charging ports Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 25-->
+      <div class="filterDiv backrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1SfSZeO6K7sy6bMGS1g8gOWEwtG1ZH7Cj" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 2</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Outside of Curry </sub></m></p>
+                <p><m><sub>Features: Backrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 26-->
+      <div class="filterDiv backrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1jKLxPoVFdw_sND6sGXAx6Mx78YD39tfL" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 2</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Outside of Stetson West </sub></m></p>
+                <p><m><sub>Features: Backrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 27-->
+      <div class="filterDiv backrest armrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1a_YVQU9hivrfbEU6wf7kiM2hFnrHrhIr" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Koi Pond Seats behind CSC </sub></m></p>
+                <p><m><sub>Features: Backrest, Outdoor, Armrest</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 28-->
+      <div class="filterDiv backrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1G8lzyNecSDDDDdteTP0VyAfHkP3fqMLT" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Outdoors between CSC & Snell </sub></m></p>
+                <p><m><sub>Features: Backrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 29-->
+      <div class="filterDiv backrest armrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1FLG4anGZeUKu08L5b0zd--wI21n27Sgj" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 2</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Robinson Quad </sub></m></p>
+                <p><m><sub>Features: Backrest, Armrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 30-->
+      <div class="filterDiv backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1aqovZCElrr7WMHcgzIspmAIUKzc2h4T1" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Bamboo Garden Room in Robinson Quad </sub></m></p>
+                <p><m><sub>Features: Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 31-->
+      <div class="filterDiv backrest indoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1OxvYrgQksCIyYj9RA3Nz8IlORNMH5wZz" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Industry Room in Robinson Quad</sub></m></p>
+                <p><m><sub>Features: Backrest, Indoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 32-->
+      <div class="filterDiv backrest armrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1-rXge2BfrJt_8o7ZYdU2nIUdn5IpBPer" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 3</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Area between Forsyth Building, Cabot Center & Churchill Hall  </sub></m></p>
+                <p><m><sub>Features: Backrest, Armrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 33-->
+      <div class="filterDiv backrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1X4ZzgZ_qXJ2Umkx-Wn0SI-QJQIjXMkqk" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Area between Churchill Hall & Snell Engineering Center </sub></m></p>
+                <p><m><sub>Features: Backrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 34-->
+      <div class="filterDiv backrest armrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=11eEmUND_7oP_PBckBrE0S7awNp1IUTRP2" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 1</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Area next to Cabot </sub></m></p>
+                <p><m><sub>Features: Backrest, Armrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 35-->
+      <div class="filterDiv backrest armrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=1QWsFSSqkgBaosZSj4XrnBryzvy5xGdEl" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 2</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Centennial Commons </sub></m></p>
+                <p><m><sub>Features: Backrest, Armrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      <!--spot 36-->
+      <div class="filterDiv backrest armrest outdoor">
+        <li>
+          <a href="#">
+        <div class="grid-container">
+              <div class="leftchunk">
+                <img src="https://drive.google.com/uc?export=view&id=14i5cpW9YLEcjwbYTCmoFwR2DK1S4p7hU" style="width:200px;height:150px;margin-left:10px"/> 
+                <p><m><sub>Rating: 4</sub></m></p>
+              </div>
+                <hr/>
+                <p><m><sub>Area near Willis Hall</sub></m></p>
+                <p><m><sub>Features: Backrest, Armrest, Outdoor</sub></m></p>
+        </div>
+          </a>
+        </li>
+      </div>
+
+      </div>
+    </ul>
+
+    <script>
+        function myFunction() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+</script>
+</html>
