@@ -1,8 +1,1 @@
-# NUSpotlight-
-npm install express
-
-npm install nodemon
-
-cd demo
-
-npm start
+Link to demo site: https://nuspots.glitch.me
